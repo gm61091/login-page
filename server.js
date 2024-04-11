@@ -11,7 +11,7 @@ const db = pgp('postgres://qonnxkqn:yAamuth4AZ0bhZEGuoBLeR6tfHO-wXYC@raja.db.ele
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
 
-app.get('/connected', (req, res) => {
+app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/public/register.html');
 });
 
