@@ -19,19 +19,20 @@ app.get('/register', (req, res) => {
 // Route to handle registration form submission
 app.post('/register', async (req, res) => {
     try {
-        // Hash the password before storing it in the database
-        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+        const { name, email, password } = req.body; // Extracting data from request body
+        const hashedPassword = await bcrypt.hash(password, saltRounds); // Hashing the password
         // Store the user data in the database
         const newUser = await db.one(`
             INSERT INTO users (name, email, password) 
             VALUES ($1, $2, $3) 
-            RETURNING id`, [req.body.name, req.body.email, hashedPassword]);
+            RETURNING id`, [name, email, hashedPassword]);
         res.send(`User registered with ID: ${newUser.id}`);
     } catch (error) {
         console.error('Error registering user:', error);
         res.status(500).send('Error registering user');
     }
 });
+
 
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/login.html');
