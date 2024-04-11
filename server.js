@@ -4,31 +4,6 @@ const bcrypt = require('bcrypt');
 const PORT = 3000;
 const saltRounds = 8;
 
-const userTypedInPassword = 'mypassword';
-const storedPassword = '';
-
-bcrypt.hash(userTypedInPassword, saltRounds, (err, hash) => {
-    if (err) {
-        console.log(err);
-        return err
-    }
-    console.log('hashed password: ${hash}, user password: ${userTypedInPassword}');
-});
-
-bcrypt.compare(userTypedInPassword, storedPassword, (err, result) => {
-    if (err) {
-        console.log(err);
-        return
-    }
-    if (result) {
-        console.log('Passwords are a match');
-    }
-    else{
-        console.log("passwords don't match");
-    }
-});
-
-
 const app = express();
 app.use(express.json());
 
@@ -41,8 +16,10 @@ app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/public/register.html');
 });
 
+// Route to handle registration form submission
 app.post('/register', async (req, res) => {
     try {
+        // Hash the password before storing it in the database
         const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
         // Store the user data in the database
         const newUser = await db.one(`
@@ -55,7 +32,6 @@ app.post('/register', async (req, res) => {
         res.status(500).send('Error registering user');
     }
 });
-
 
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/login.html');
