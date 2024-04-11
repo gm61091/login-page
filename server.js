@@ -6,6 +6,8 @@ const saltRounds = 8;
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 const db = pgp('postgres://qonnxkqn:yAamuth4AZ0bhZEGuoBLeR6tfHO-wXYC@raja.db.elephantsql.com/qonnxkqn');
 
@@ -16,11 +18,11 @@ app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/public/register.html');
 });
 
-// Route to handle registration form submission
 app.post('/register', async (req, res) => {
     try {
-        const { name, email, password } = req.body; // Extracting data from request body
-        const hashedPassword = await bcrypt.hash(password, saltRounds); // Hashing the password
+        const { name, email, password } = req.body;
+        console.log(req.body);
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
         // Store the user data in the database
         const newUser = await db.one(`
             INSERT INTO users (name, email, password) 
@@ -34,17 +36,21 @@ app.post('/register', async (req, res) => {
 });
 
 
+
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/login.html');
 });
 
 app.post('/login', async (req, res) => {
     try {
+        // Extract email and password from request body
+        const { email, password } = req.body;
+        
         // Find the user by email in the database
-        const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', req.body.email);
+        const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', email);
         if (user) {
             // Compare hashed password with user input
-            const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+            const passwordMatch = await bcrypt.compare(password, user.password);
             if (passwordMatch) {
                 res.send('Login successful');
             } else {
@@ -58,6 +64,8 @@ app.post('/login', async (req, res) => {
         res.status(500).send('Error authenticating user');
     }
 });
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}.`);
