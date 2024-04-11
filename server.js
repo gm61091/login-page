@@ -19,9 +19,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/register', (req, res) => {
-    res.send('Registration page');
+    res.sendFile(__dirname + '/register.html');
 });
-
 
 
 app.post('/register', async (req, res) => {
@@ -36,9 +35,9 @@ app.post('/register', async (req, res) => {
     });
 
 
-app.get('/login', (req, res) => {
-    res.send('Login page');
-});
+    app.get('/login', (req, res) => {
+        res.sendFile(__dirname + '/login.html');
+    });
 
 
 app.post('/login', async (req, res) => {
