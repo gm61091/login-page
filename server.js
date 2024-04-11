@@ -2,6 +2,7 @@ const express = require('express');
 const pgp = require('pg-promise')();
 const bcrypt = require('bcrypt');
 const PORT = 3000;
+const saltRounds = 8;
 
 const app = express();
 app.use(express.json());
