@@ -47,7 +47,7 @@
       );
       const data = await response.json();
       if(response.ok) {
-        window.location.href('https://login-page-register.vercel.app/login.html');
+        window.location.href = 'https://login-page-register.vercel.app/login.html';
       }
       else{
         console.log('didnt work')
