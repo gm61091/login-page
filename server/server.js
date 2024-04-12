@@ -50,8 +50,9 @@ app.post('/register', async (req, res) => {
 // });
 
 
-app.get('/', (req, res) => {
-    res.send('hello')
+app.get('/', async (req, res) => {
+    const allUsers = await  db.many('SELECT * FROM users');
+    res.send(allUsers);
 });
 
 
