@@ -46,7 +46,13 @@
         }
       );
       const data = await response.json();
-      window.location.href('/login.html');
+      if(response.ok) {
+        window.location.href('/https://login-page-register.vercel.app/login.html');
+      }
+      else{
+        console.log('didnt work')
+      };
+      
     } catch (error) {
       console.error("Error:", error);
     }
