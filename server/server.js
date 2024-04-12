@@ -9,7 +9,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin:'https://login-page-register.vercel.app' })); //star is replaced with url link
+app.use(cors({ origin:'https://login-page-register.vercel.app/' })); //star is replaced with url link
 
 // Middleware to parse URL-encoded requests and populate req.body.
 app.use(express.urlencoded({ extended: true }));
@@ -34,7 +34,7 @@ app.post('/register', async (req, res) => {
             INSERT INTO users (name, email, password) 
             VALUES ($1, $2, $3) 
             RETURNING id`, [name, email, hashedPassword]);
-        res.redirect('/login');
+        res.send('you are registered!');
 
     } catch (error) {
         console.error('Error registering user:', error);
