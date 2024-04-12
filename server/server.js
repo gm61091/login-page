@@ -34,7 +34,7 @@ app.post('/register', async (req, res) => {
             INSERT INTO users (name, email, password) 
             VALUES ($1, $2, $3) 
             RETURNING id`, [name, email, hashedPassword]);
-        res.send('you are registered!');
+        res.json('you are registered!');
 
     } catch (error) {
         console.error('Error registering user:', error);
