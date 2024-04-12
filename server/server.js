@@ -5,9 +5,11 @@ const PORT = 3000;
 const saltRounds = 8;
 require('dotenv').config();
 const dbUrl = process.env.DB_KEY; //process is express. react is different
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
+app.use(cors({ origin:'https://login-page-register.vercel.app' })); //star is replaced with url link
 
 // Middleware to parse URL-encoded requests and populate req.body.
 app.use(express.urlencoded({ extended: true }));
@@ -32,7 +34,8 @@ app.post('/register', async (req, res) => {
             INSERT INTO users (name, email, password) 
             VALUES ($1, $2, $3) 
             RETURNING id`, [name, email, hashedPassword]);
-        res.send(`User registered with ID: ${newUser.id}`);
+        res.redirect('/login');
+
     } catch (error) {
         console.error('Error registering user:', error);
         res.status(500).send('Error registering user');
