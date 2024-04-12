@@ -30,7 +30,7 @@ app.post('/register', async (req, res) => {
         console.log(req.body);
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         // Store the user data in the database
-        const newUser = await db.one(`
+         await db.one(`
             INSERT INTO users (name, email, password) 
             VALUES ($1, $2, $3) 
             RETURNING id`, [name, email, hashedPassword]);
