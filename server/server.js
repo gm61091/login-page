@@ -3,20 +3,24 @@ const pgp = require('pg-promise')();
 const bcrypt = require('bcrypt');
 const PORT = 3000;
 const saltRounds = 8;
+require('dotenv').config();
+const dbUrl = process.env.DB_KEY; //process is express. react is different
 
 const app = express();
 app.use(express.json());
+
+// Middleware to parse URL-encoded requests and populate req.body.
 app.use(express.urlencoded({ extended: true }));
 
 
-const db = pgp('postgres://qonnxkqn:yAamuth4AZ0bhZEGuoBLeR6tfHO-wXYC@raja.db.elephantsql.com/qonnxkqn');
+const db = pgp(dbUrl);
 
 // Serve static files from the 'public' directory
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
-app.get('/register', (req, res) => {
-    res.sendFile(__dirname + '/public/register.html');
-});
+// app.get('/register', (req, res) => {
+//     res.sendFile(__dirname + '/public/register.html');
+// });
 
 app.post('/register', async (req, res) => {
     try {
@@ -37,9 +41,15 @@ app.post('/register', async (req, res) => {
 
 
 
-app.get('/login', (req, res) => {
-    res.sendFile(__dirname + '/public/login.html');
+// app.get('/login', (req, res) => {
+//     res.sendFile(__dirname + '/public/login.html');
+// });
+
+
+app.get('/', (req, res) => {
+    res.send('hello')
 });
+
 
 app.post('/login', async (req, res) => {
     try {
