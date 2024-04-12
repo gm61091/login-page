@@ -10,7 +10,7 @@
     <br>
     <br>
     <h1>Registration</h1>
-    <form action="/register" method="post" class="row g-3">
+    <form onsubmit="handleSubmit" class="row g-3">
         <div class="col-md-6">
             <label for="inputName4" class="form-label">Name</label> 
             <input type="text" class="form-control" name="name" placeholder="Name" aria-label="First name">
@@ -27,7 +27,31 @@
         </div>
     </form>
     
+    <script>
+         const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    const form = e.target;
+    const userData = {name: form.name.value, email: form.email.value, password: form.password.value};        
+    try {
+
+      const response = await fetch(
+        "https://login-page-server.vercel.app/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
+      const data = await response.json();
+      window.location.replace("/login");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
