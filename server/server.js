@@ -15,7 +15,7 @@ app.use(cors({origin:'https://login-page-register.vercel.app'})); //star is repl
 app.use(express.urlencoded({ extended: true }));
 
 
-const db = pgp(dbUrl);
+const db = pgp(dbUrl); //coming from the .env file
 
 // Serve static files from the 'public' directory
 // app.use(express.static('public'));
@@ -48,6 +48,10 @@ app.post('/register', async (req, res) => {
 // app.get('/login', (req, res) => {
 //     res.sendFile(__dirname + '/public/login.html');
 // });
+
+
+
+
 
 
 app.get('/', async (req, res) => {
